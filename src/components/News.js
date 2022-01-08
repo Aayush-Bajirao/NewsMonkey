@@ -76,15 +76,15 @@ export class News extends Component {
     }
 
   render() {
-    return (
+    return ( 
       <div className="container my-3">
         <h2>NewsMonkey Top Headlines</h2>
         <div className="row my-4">
           {this.state.articles.map((element) => {
             return <div className="col-md-3" key={element.url}>
               <NewsItem                
-                title={element.title?element.title.slice(0 ,45):""}
-                description={element.description?element.description.slice(0 ,90):""}
+                title={element.title}
+                description={element.description}
                 imgUrl={element.urlToImage}
                 newsUrl={element.url}
               />
