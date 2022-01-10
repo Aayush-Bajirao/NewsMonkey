@@ -10,6 +10,7 @@ export class News extends Component {
       articles: [],
       loading: false,
       page: 1,
+      pageSize: 15 /* my doing */
     };
   }
 
@@ -17,41 +18,45 @@ export class News extends Component {
     console.log("cdm");
 
     let data = await fetch(
-      "https://newsapi.org/v2/top-headlines?country=in&apikey=dbe57b028aeb41e285a226a94865f7a7&page=1"
+      `https://newsapi.org/v2/top-headlines?country=in&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=1&pageSize=${this.state.pageSize}`
     );
     let parsedData = await data.json();
     /*console.log(parsedData)*/
     this.setState({ 
       articles: parsedData.articles,
-      page: this.state.page + 1 
+      totalResults: parsedData.totalResults,
     });
   }
 
   handleNextClick = async () => {
     console.log("Next");
 
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apikey=dbe57b028aeb41e285a226a94865f7a7&page=${this.state.page + 1}`;
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    /*console.log(parsedData)*/
-    this.setState({ 
-      articles: parsedData.articles,
-      page: this.state.page + 1 
-    });
+    if(Math.ceil(this.state.totalResults/this.state.pageSize) < this.state.page + 1){
+      
+    }else{
+      let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=${this.state.page + 1}&pageSize=${this.state.pageSize}`;
+      let data = await fetch(url);
+      let parsedData = await data.json();
+      /*console.log(parsedData)*/
+      this.setState({ 
+        articles: parsedData.articles,
+        page: this.state.page + 1 
+      });
+    }
 
   };
 
   handlePrevClick = async () => {
     console.log("Prevous");
 
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apikey=dbe57b028aeb41e285a226a94865f7a7&page=${this.state.page - 1}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=${this.state.page - 1}&pageSize=${this.state.pageSize}`;
     let data = await fetch(url);
     let parsedData = await data.json();
     /*console.log(parsedData)*/
     this.setState({ 
       articles: parsedData.articles,
       page: this.state.page - 1 
-    });
+     });
 
   };
 
@@ -74,16 +79,16 @@ export class News extends Component {
           })}
         </div>
         <div className="container d-flex justify-content-between">
-          <button
+          <button          
             type="button"
-            class="btn btn-lg btn-dark d-flex justify-content-between"
+            className="btn btn-lg btn-dark d-flex justify-content-between"
             onClick={this.handlePrevClick}
           >
             {"<<- "}Previous
           </button>
           <button
             type="button"
-            class="btn btn-lg btn-dark d-flex justify-content-between"
+            className="btn btn-lg btn-dark d-flex justify-content-between"
             onClick={this.handleNextClick}
           >
             Next{" ->>"}
