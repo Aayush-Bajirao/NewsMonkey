@@ -5,15 +5,16 @@ export class NewsItem extends Component {
 
 
     render() {
-        let {title, description, imgUrl, newsUrl} = this.props;
+        let {title, description, imgUrl, newsUrl, author, date, source} = this.props;
          return (
             <div>
                 <div className="card my-2">
                     <img src={!imgUrl?"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU":imgUrl} className="card-img-top" alt="..." />
                     <div className="card-body">
-                        <h5 className="card-title">{title}</h5>
+                        <h5 className="card-title">{title}<span class="badge bg-secondary">{source}</span></h5>
                         <p className="card-text">{description}</p>
                         <a href={newsUrl} rel="noreferrer" target="_blank"className="btn btn-sm btn-dark">Read more...</a>
+                        <p>Last updated by {!author?"Unknown Author":author} on {new Date(date).toGMTString()}</p>
                     </div>
                     </div>
                     

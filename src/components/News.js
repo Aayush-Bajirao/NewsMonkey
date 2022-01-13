@@ -34,7 +34,7 @@ export class News extends Component {
     console.log("cdm");
 
     let data = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=1&pageSize=${this.props.pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=1&pageSize=${this.props.pageSize}`
     );
     this.setState({ loading: true });
     let parsedData = await data.json();
@@ -53,7 +53,7 @@ export class News extends Component {
       !Math.ceil(this.state.totalResults / this.props.pageSize) <
       this.state.page + 1
     ) {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=${
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
         this.state.page + 1
       }&pageSize=${this.props.pageSize}`;
       this.setState({ loading: true });
@@ -71,7 +71,7 @@ export class News extends Component {
   handlePrevClick = async () => {
     console.log("Prevous");
 
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=2492d27b405f4e4ba6b250bed0a238a2&page=${
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
       this.state.page - 1
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -95,6 +95,9 @@ export class News extends Component {
             return (
               <div className="col-md-4" key={element.url}>
                 <NewsItem
+                  source={element.source.name}
+                  author={element.author}
+                  date={element.publishedAt}
                   title={element.title}
                   description={element.description}
                   imgUrl={element.urlToImage}
