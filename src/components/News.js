@@ -26,7 +26,7 @@ export class News extends Component {
       page: 1,
       /*pageSize: 15  my doing */
     };
-  }
+  };
   apiKey = "2492d27b405f4e4ba6b250bed0a238a2";
   async componentDidMount() {
     console.log("cdm");
@@ -43,8 +43,7 @@ export class News extends Component {
       loading: false,
     });*/
     this.updateNews();
-  }
-
+  };
   async updateNews(){
     let url = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
@@ -61,10 +60,11 @@ export class News extends Component {
       loading: false,
     });
   };
+  
 
   handleNextClick = async () => {
-    /*console.log("Next");
-    Primary plan to disable the button
+    console.log("Next");
+    
     let url = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
     }&category=${this.props.category}&apiKey=${this.apiKey}&page=${
@@ -78,15 +78,15 @@ export class News extends Component {
       articles: parsedData.articles,
       page: this.state.page + 1,
       loading: false,
-    });*/
-    this.setState({
+    });
+    {/*this.setState({
       page: this.state.page + 1
     });
-    this.updateNews();
+  this.updateNews();*/}
   };
 
   handlePrevClick = async () => {
-    /*console.log("Prevous");
+    console.log("Prevous");
     let url = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
     }&category=${this.props.category}&apiKey=${this.apiKey}&page=${
@@ -95,16 +95,16 @@ export class News extends Component {
     this.setState({ loading: true });
     let data = await fetch(url);
     let parsedData = await data.json();
-    /*console.log(parsedData)
+    /*console.log(parsedData)*/
     this.setState({
       articles: parsedData.articles,
       page: this.state.page - 1,
       loading: false,
-    });*/
-    this.setState({  
+    });
+    {/*this.setState({  
       page: this.state.page - 1, 
     });
-    this.updateNews();
+  this.updateNews();*/}
   };
 
   render() {
@@ -144,7 +144,7 @@ export class News extends Component {
           <button
             /*back up plan to diable the button */
             disabled={
-              Math.ceil(this.state.totalResults / this.state.pageSize) <
+              5 <
               this.state.page + 1
             }
             type="button"
