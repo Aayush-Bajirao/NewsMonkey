@@ -144,8 +144,7 @@ export class News extends Component {
           <button
             /*back up plan to diable the button */
             disabled={
-              5 <
-              this.state.page + 1
+              Math.ceil(this.state.totalResults/this.props.pageSize) < this.state.page + 1
             }
             type="button"
             className="btn btn-lg btn-dark d-flex justify-content-between"
