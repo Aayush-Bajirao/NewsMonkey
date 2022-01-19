@@ -1,38 +1,25 @@
-import React, { Component } from "react";
+import React, { useEffect, useState} from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 
-export class News extends Component {
-  static defaultPops = {
-    country: "in",
-    pageSize: 9,
-    category: "general",
-  };
+const News = (props) => {
 
-  static propTypes = {
-    country: PropTypes.string,
-    pageSize: PropTypes.number,
-    category: PropTypes.string,
-  };
-
-  constructor() {
-    super();
-    /*console.log("Hello, I am constructor.");   just to show the working of constructor*/
-
-    this.state = {
-      articles: [],
-      loading: false,
-      page: 1,
-      /*pageSize: 15  my doing */
-    };
-  };
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [totalResults, setTotalResults] = useState(0)
   
-  async componentDidMount() {
+  
+useEffect(() =>{
+  updateNews();
+},[])
+
+  /*async componentDidMount() {
     console.log("cdm");
 
-   /* let data = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.apiKey}&page=1&pageSize=${this.props.pageSize}`
+    let data = await fetch(
+      `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${this.apiKey}&page=1&pageSize=${props.pageSize}`
     );
     this.setState({ loading: true });
     let parsedData = await data.json();
@@ -41,87 +28,87 @@ export class News extends Component {
       articles: parsedData.articles,
       totalResults: parsedData.totalResults,
       loading: false,
-    });*/
+    });
     this.updateNews();
-  };
-  async updateNews(){
-        this.props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=${
-      this.props.country
-    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
-      this.state.page
-    }&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
+  };*/
+
+  const updateNews = async () =>{
+        props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      props.country
+    }&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
+    props.setProgress(70);
     /*console.log(parsedData)*/
-    this.setState({
-      articles: parsedData.articles,
-      totalResults: parsedData.totalResults,
-      loading: false,
-    })
-    this.props.setProgress(100);
+    setArticles(parsedData.articles)
+    setTotalResults(parsedData.totalResults)
+    setLoading(false)
+
+    props.setProgress(100);
   };
   
 
-  handleNextClick = async () => {
-    this.props.setProgress(10);
-    console.log("Next");    
+  const handleNextClick = async () => {
+    props.setProgress(10);
+    console.log("Next");   
+    setPage(page + 1) 
     let url = `https://newsapi.org/v2/top-headlines?country=${
-    this.props.country
-    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
-      this.state.page + 1
-    }&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
+    props.country
+    }&category=${props.category}&apiKey=${props.apiKey}&page=${
+      page
+    }&pageSize=${props.pageSize}`;
+    setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log(parsedData)
-    this.setState({
-      articles: parsedData.articles,
-      page: this.state.page + 1,
-      loading: false,
-    })
-    this.props.setProgress(100);
+    setArticles(parsedData.articles)
+    
+    setLoading(false)
+    
+    props.setProgress(100);
     {/*this.setState({
       page: this.state.page + 1
     });
   this.updateNews();*/}
   };
 
-  handlePrevClick = async () => {
-        this.props.setProgress(10);
+  const handlePrevClick = async () => {
+        props.setProgress(10);
     console.log("Prevous");
+    setPage(page - 1)
     let url = `https://newsapi.org/v2/top-headlines?country=${
-      this.props.country
-    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
-      this.state.page - 1
-    }&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
+      props.country
+    }&category=${props.category}&apiKey=${props.apiKey}&page=${
+      page
+    }&pageSize=${props.pageSize}`;
+    setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     /*console.log(parsedData)*/
-    this.setState({
-      articles: parsedData.articles,
-      page: this.state.page - 1,
-      loading: false,
-    })
-    this.props.setProgress(100);
+    
+    setArticles(parsedData.articles)
+    
+    setLoading(false)
+
+    
+    props.setProgress(100);
     {/*this.setState({  
       page: this.state.page - 1, 
     });
   this.updateNews();*/}
   };
 
-  render() {
+ 
     return (
       <div className="container my-3">
         <h1 className="text-center" style={{ margin: "35px 0" }}>
           NewsMonkey Top Headlines
         </h1>
-        {this.state.loading && <Spinner />}
+        {loading && <Spinner />}
         <div className="row my-4">
-          {!this.state.loading &&
-            this.state.articles.map((element) => {
+          {!loading &&
+            articles.map((element) => {
               return (
                 <div className="col-md-4" key={element.url}>
                   <NewsItem
@@ -139,28 +126,40 @@ export class News extends Component {
         </div>
         <div className="container d-flex justify-content-between">
           <button
-            disabled={this.state.page <= 1}
+            disabled={page <= 1}
             type="button"
             className="btn btn-lg btn-dark d-flex justify-content-between"
-            onClick={this.handlePrevClick}
+            onClick={handlePrevClick}
           >
             {"<<- "}Previous
           </button>
           <button
             /*back up plan to diable the button */
             disabled={
-              Math.ceil(this.state.totalResults/this.props.pageSize) < this.state.page + 1
+              Math.ceil(totalResults/props.pageSize) < page + 1
             }
             type="button"
             className="btn btn-lg btn-dark d-flex justify-content-between"
-            onClick={this.handleNextClick}
+            onClick={handleNextClick}
           >
             Next{" ->>"}
           </button>
         </div>
       </div>
     );
-  }
+  
 }
+
+News.defaultPops = {
+  country: "in",
+  pageSize: 9,
+  category: "general",
+};
+
+News.propTypes = {
+  country: PropTypes.string,
+  pageSize: PropTypes.number,
+  category: PropTypes.string,
+};
 
 export default News;
