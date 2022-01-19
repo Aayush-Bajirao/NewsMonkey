@@ -27,7 +27,7 @@ export class News extends Component {
       /*pageSize: 15  my doing */
     };
   };
-  apiKey = "2492d27b405f4e4ba6b250bed0a238a2";
+  
   async componentDidMount() {
     console.log("cdm");
 
@@ -48,7 +48,7 @@ export class News extends Component {
         this.props.setProgress(10);
     let url = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
-    }&category=${this.props.category}&apiKey=${this.apiKey}&page=${
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
       this.state.page
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -69,7 +69,7 @@ export class News extends Component {
     console.log("Next");    
     let url = `https://newsapi.org/v2/top-headlines?country=${
     this.props.country
-    }&category=${this.props.category}&apiKey=${this.apiKey}&page=${
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
       this.state.page + 1
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
@@ -93,7 +93,7 @@ export class News extends Component {
     console.log("Prevous");
     let url = `https://newsapi.org/v2/top-headlines?country=${
       this.props.country
-    }&category=${this.props.category}&apiKey=${this.apiKey}&page=${
+    }&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${
       this.state.page - 1
     }&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
