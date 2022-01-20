@@ -57,7 +57,7 @@ useEffect(() =>{
     let url = `https://newsapi.org/v2/top-headlines?country=${
     props.country
     }&category=${props.category}&apiKey=${props.apiKey}&page=${
-      page
+      page +1
     }&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
@@ -80,7 +80,7 @@ useEffect(() =>{
     let url = `https://newsapi.org/v2/top-headlines?country=${
       props.country
     }&category=${props.category}&apiKey=${props.apiKey}&page=${
-      page
+      page -1
     }&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
@@ -102,7 +102,7 @@ useEffect(() =>{
  
     return (
       <div className="container my-3">
-        <h1 className="text-center" style={{ margin: "35px 0" }}>
+        <h1 className="text-center" style={{ margin: "90px 0 32px 0" }}>
           NewsMonkey Top Headlines
         </h1>
         {loading && <Spinner />}
